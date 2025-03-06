@@ -1,2 +1,2 @@
 # aws-cost-optimization-stale-resources
-Cost Optimization by identifying stale resources like snapshots and remove them.
+A Python-based AWS Lambda solution to identify and optimize stale resources in EC2.
