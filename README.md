@@ -67,3 +67,53 @@ It removes **unnecessary snapshots** to **reduce AWS storage costs** and prevent
        "Resource": "*"
    }
 
+   Test the Lambda Function
+
+Click Test → Create a new test event
+
+Give it a name (e.g., TestEvent)
+
+Click Invoke
+
+If you see an execution timeout error, go to Configuration → General settings
+
+Increase the timeout to 10 seconds
+
+Run the test again
+
+5️⃣ Automate Execution with CloudWatch EventBridge
+
+Go to EventBridge → Create Rule
+
+Name it stale-snapshots-rule
+
+Choose Schedule Expression
+
+Set a cron job (e.g., run monthly):
+
+cron(0 0 1 * ? *)
+
+Choose AWS Lambda as the target
+
+Click Create Rule
+
+6️⃣ Enable Email Notifications via SNS
+
+Go to AWS SNS → Create Topic
+
+Select Standard and give it a name (e.g., StaleSnapshotsTopic)
+
+Click Create Topic
+
+Click on the topic and Create Subscription
+
+Choose Protocol: Email, enter your email address, and click Create
+
+Confirm the email by clicking the verification link sent to your inbox
+
+Now, go back to Lambda → Configuration → Destinations
+
+Add SNS Topic as a destination for successful execution
+
+
+
