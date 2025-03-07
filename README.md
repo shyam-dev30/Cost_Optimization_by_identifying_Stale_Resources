@@ -2,6 +2,7 @@
 
 ## 📌 Overview  
 This project automates AWS cost optimization by identifying stale EC2 snapshots that have not been used for a long time. It removes unnecessary snapshots to reduce storage costs.
+![AWS Lambda Function](images/screenshot.png)
 
 ---
 
