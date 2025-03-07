@@ -1,26 +1,7 @@
-# 🚀 AWS Cost Optimization - Identifying & Removing Stale EC2 Snapshots  
+# 🚀 AWS Cost Optimization - Stale EC2 Snapshots Cleanup
 
-## 📖 Overview  
-This project automates **AWS cost optimization** by identifying **stale EC2 snapshots** that have not been used for a long time.  
-It removes **unnecessary snapshots** to **reduce AWS storage costs** and prevent resource wastage.  
-
-## 🎯 Features  
-✅ Scans AWS **EC2 snapshots** and identifies stale resources  
-✅ **Automatically deletes** snapshots older than a set threshold  
-✅ Sends **notifications to developers** via AWS **SNS**  
-✅ Uses **AWS Lambda** for automation  
-✅ Supports **scheduled execution** using **CloudWatch EventBridge**  
-
----
-
-## 🛠️ AWS Services Used  
-- **AWS Lambda** → Runs the script to check and delete stale snapshots  
-- **AWS EC2** → Retrieves snapshot details  
-- **AWS SNS** → Sends notifications to developers after deletion  
-- **AWS CloudWatch EventBridge** → Automates scheduled execution  
-
----
-
+## 📌 Overview  
+This project automates AWS cost optimization by identifying stale EC2 snapshots that have not been used for a long time. It removes unnecessary snapshots to reduce storage costs.
 
 ---
 
@@ -28,9 +9,7 @@ It removes **unnecessary snapshots** to **reduce AWS storage costs** and prevent
 - **AWS Account** with appropriate permissions  
 - **IAM Role** with the following permissions:  
   - `AmazonEC2ReadOnlyAccess` (to read snapshots)  
-  - `AmazonEC2FullAccess` (to delete snapshots)  
-  - `AmazonSNSFullAccess` (to send notifications)  
-- **AWS CLI installed & configured** (for local testing)  
+  - `AmazonSNSFullAccess` (to send notifications)    
 - **Python 3.x** (if running the script locally)  
 
 ---
@@ -66,54 +45,41 @@ It removes **unnecessary snapshots** to **reduce AWS storage costs** and prevent
        ],
        "Resource": "*"
    }
+   ```  
 
-   Test the Lambda Function
+### **4️⃣ Test the Lambda Function**  
+1. Click **Test** → Create a new test event  
+2. Give it a name (e.g., `TestEvent`)  
+3. Click **Invoke**  
+4. If you see an **execution timeout error**, go to **Configuration** → **General settings**  
+5. Increase the timeout to **10 seconds**  
+6. Run the test again  
 
-Click Test → Create a new test event
+### **5️⃣ Automate Execution with CloudWatch EventBridge**  
+1. Go to **EventBridge** → **Create Rule**  
+2. Name it **`stale-snapshots-rule`**  
+3. Choose **Schedule Expression**  
+4. Set a cron job (e.g., run monthly):  
+   ```cron
+   cron(0 0 1 * ? *)
+   ```  
+5. Choose **AWS Lambda** as the target  
+6. Click **Create Rule**  
 
-Give it a name (e.g., TestEvent)
+### **6️⃣ Enable Email Notifications via SNS**  
+1. Go to **AWS SNS** → **Create Topic**  
+2. Select **Standard** and give it a name (e.g., `StaleSnapshotsTopic`)  
+3. Click **Create Topic**  
+4. Click on the topic and **Create Subscription**  
+5. Choose **Protocol: Email**, enter your **email address**, and click **Create**  
+6. **Confirm the email** by clicking the verification link sent to your inbox  
+7. Now, go back to **Lambda → Configuration → Destinations**  
+8. Add **SNS Topic** as a destination for successful execution  
 
-Click Invoke
+---
 
-If you see an execution timeout error, go to Configuration → General settings
+## 🎯 Conclusion  
+Your AWS Lambda function is now configured to automatically identify stale EC2 snapshots, delete them, and notify developers via AWS SNS. This setup helps in cost optimization by removing unnecessary storage expenses.
 
-Increase the timeout to 10 seconds
-
-Run the test again
-
-5️⃣ Automate Execution with CloudWatch EventBridge
-
-Go to EventBridge → Create Rule
-
-Name it stale-snapshots-rule
-
-Choose Schedule Expression
-
-Set a cron job (e.g., run monthly):
-
-cron(0 0 1 * ? *)
-
-Choose AWS Lambda as the target
-
-Click Create Rule
-
-6️⃣ Enable Email Notifications via SNS
-
-Go to AWS SNS → Create Topic
-
-Select Standard and give it a name (e.g., StaleSnapshotsTopic)
-
-Click Create Topic
-
-Click on the topic and Create Subscription
-
-Choose Protocol: Email, enter your email address, and click Create
-
-Confirm the email by clicking the verification link sent to your inbox
-
-Now, go back to Lambda → Configuration → Destinations
-
-Add SNS Topic as a destination for successful execution
-
-
+🚀 **Happy Cloud Optimization!**
 
